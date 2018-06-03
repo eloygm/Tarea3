@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+          
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/Template_Logeado.xhtml">
+
+            <ui:define name="content">
+                <h:panelGroup class="right_content">
+                <h:panelGroup>
+                <h:form>  
+                    <p:gmap id="gmap" center="36.697194,-4.459667" zoom="16" type="HYBRID" model="#{ventInfMap.simpleModel}" style="width:100%;height:400px">
+                    </p:gmap>
+                </h:form>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <div class="fb-page" data-href="https://www.facebook.com/g39santoangel/" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/g39santoangel/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/g39santoangel/">Grupo Scout 39 Santo Ángel</a></blockquote></div>
+                </h:panelGroup>
+                </h:panelGroup>
+                <h:form id="form" class="left_content">
+                   
+                    <p:dataGrid var="evento" value="#{loadNoticias.eventos}" columns="1" layout="grid"
+                                rows="2" paginator="true" id="evento"
+                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="1,2,3">
+                        
+                        <f:facet name="header">
+                          Eventos
+                        </f:facet>
+                        
+                        
+                                
+                        <p:panel header="#{evento.titulo}" style="text-align:center">
+                            <h:panelGrid columns="1" style="width:100%">
+                                
+                                <h:outputText value="#{evento.descripcion}" />
+                                <b:commandButton value="Ver más" look="info" action="#{eventoMB.cargarEvento(evento)}"/>
+                                
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:dataGrid>
+                   
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

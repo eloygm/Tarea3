@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:b="http://bootsfaces.net/ui">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/Template_Logeado.xhtml">
+
+            <ui:define name="content">
+                 <style>
+                        .event a {
+                    background-color: lightsteelblue !important;
+                    background-image :none !important;
+                    <!--color: #ffffff !important;-->
+                }
+                </style>
+        <h:outputScript>
+
+	 //<![CDATA[
+
+		function processDay(date) {
+
+			var specialDays = new Array(#{fn:join(calendarBean.getSpecialDays(), ',')});
+
+			
+
+			for (var i = 0; i < specialDays.length; i++) {
+
+				var sDate = new Date(specialDays[i]);
+
+				
+
+				var compare1 = new Date(date.getFullYear(),date.getMonth(),date.getDate());
+
+				var compare2 = new Date(sDate.getFullYear(),sDate.getMonth(),sDate.getDate());
+
+				
+
+				if(compare1.getTime() == compare2.getTime()) {
+
+					return [true, "event"];
+
+				}
+
+			}
+
+	        
+
+			return [false, ''];
+
+		};
+
+	 //]]>
+
+	</h:outputScript>
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <div style="float:right; margin: 2em">
+                <h:outputText value="Calendario" />
+                <p:calendar id="inline" value="#{calendarView.date1}" mode="inline" beforeShowDay="processDay">
+                    <p:ajax event="dateSelect" listener="#{calendarView.click}" update="msgs" />
+                </p:calendar>
+            </div>
+        </h:form>
+ <!--           <p:commandButton value="Submit" update="msgs" actionListener="almohadilla{calendarView.click}" icon="ui-icon-check" />
+-->
+            <p:dialog modal="true" resizable="false" header="Eventos" widgetVar="dlg" showEffect="fold">
+                <p:dataTable value="#{calendarView.obtenerEventos}" var="evento1">
+                                <p:column colspan="2">
+                                    <f:facet name="header">Nombre</f:facet>
+                                    #{evento1.titulo}
+                                </p:column>
+                                <p:column colspan="2">
+                                    <!--<f:facet name="header">Enlace</f:facet>
+                                    <a href="Evento.xhtml#//{eventoMB.setEv(evento1)}">redirigir al evento</a>-->
+                                     <b:commandButton value="Ver más" look="info" action="#{eventoMB.cargarEvento(evento)}"/>
+                                </p:column>
+                            </p:dataTable>
+            </p:dialog>
+            
+            Grupo <h:outputText value="#{calendarView.geteandoGrupo()}"/>
+            
+            <h:form id="form2" class="left_content">
+                <p:dataGrid var="evento" value="#{calendarView.obtenerEventos}" columns="1" layout="grid"
+                                rows="2" paginator="true" id="eventos"
+                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="1,2,3" style="margin-right: 20em">
+                        <f:facet name="header">
+                          Eventos
+                        </f:facet>
+ 
+                        <p:panel header="#{Evento.id}" style="text-align:center">
+                            <h:panelGrid columns="1" style="width:100%">
+                                <h:outputText value="#{evento.titulo}"/> 
+                                <h:outputLink  value="Evento.xhtml#{eventoMB.setEv(evento)}">
+                                <h:outputText value="#{evento.descripcion}" />
+                                </h:outputLink>
+ 
+                                
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:dataGrid>
+                   
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./admin_Template.xhtml">
+
+            <ui:define name="content">
+                <h:form>
+                   <p:panel id="panel" header="Update Evento">
+                    <h:panelGrid columns="1" cellpadding="5">
+                        
+                        <p:outputLabel for="sec" value="Introduce Seccion: " />
+                        <h:selectOneListbox id="sec" value="#{AdmEvento_MB.seccion}" >
+                            <f:selectItems value="#{AdmEvento_MB.getSecciones()}" var="secs" itemValue="#{secs.nombre}" itemLabel="#{secs.nombre}" /> 
+                        </h:selectOneListbox>
+                        
+                        <p:outputLabel for="titl" value="Introduce el título del evento: " />
+                        <p:inputText id="titl" value="#{AdmEvento_MB.titulo}"/>
+                        
+                        <p:outputLabel for="des" value="Introduce la descripción del evento: " />
+                        <p:inputTextarea rows="6" cols="33" id="des" value="#{AdmEvento_MB.descripcion}"/>
+
+                        <p:outputLabel for="popup" value="Elige fecha inicio: " />
+                        <p:calendar id="popup" value="#{AdmEvento_MB.fechaInicio}" required="true" />
+                     
+                        <p:outputLabel for="popup2" value="Fecha finalización: " />
+                        <p:calendar id="popup2" value="#{AdmEvento_MB.fechaFin}" required="true" />
+                       
+                        <p:outputLabel for="img" value="Subir imagen" />
+                        <p:fileUpload id="img" value="#{AdmEvento_MB.Imagen}" mode="simple" skinSimple="true"/>
+                       
+                        <p:outputLabel for="tipo" value="Tipo de evento: " />
+                        <h:selectOneMenu id="tipo" value = "#{AdmEvento_MB.tipoEvento}"> 
+                            <f:selectItem itemValue = "1" itemLabel = "Pago" /> 
+                            <f:selectItem itemValue = "2" itemLabel = "Gratis" /> 
+                        </h:selectOneMenu> 
+                       
+                        <h:commandButton value="Crear" action="#{AdmEvento_MB.updateEvento()}"></h:commandButton>
+
+                    </h:panelGrid>
+                       </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

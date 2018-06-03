@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./admin_Template.xhtml">
+            EDITAR UNA SECCION:
+            <ui:define name="content">
+                <h:form>
+                    <p:panel id="panel" header="Update Seccion">
+                    <h:panelGrid columns="1" cellpadding="5">
+
+                        <p:outputLabel for="titl" value="Introduce el nombre de la sección: " />
+                        <p:inputText id="titl" value="#{seccionMB.nombre}"/>
+                        
+                        <p:outputLabel for="edadmin" value="Introduce la edad mínima (int): " />
+                        <p:inputText id="edadmin" value="#{seccionMB.edad_minima}"/>
+
+                        <p:outputLabel for="edadmax" value="Introduce la edad mínima (int): " />
+                        <p:inputText id="edadmax" value="#{seccionMB.edad_maxima}"/>
+                     
+                        <p:outputLabel for="cuota" value="Introduce la cuota (double): " />
+                        <p:inputText id="cuota" value="#{seccionMB.cuota}"/>
+                       
+                        <h:commandButton value="Crear" action="#{seccionMB.editarSeccion()}"></h:commandButton>
+
+                    </h:panelGrid>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <h:body>
+
+        <ui:composition template="./WEB-INF/Template.xhtml">
+
+            <ui:define name="content">
+
+                <div id="tituloPuntate">
+                <h1>¿Quieres apuntarte?</h1>
+                </div>
+                <div id="textApuntate">
+                    <p>Actualmente, el Grupo está compuesto por cuatro secciones:
+                        <ul>
+                            <li>La Manada de Tha (de 8 a 11 años)</li>
+                            <li>La Tropa de Kim(de 11 a 14 años)</li>
+                            <li>La Unidad Esculta Siryu (de 14 a 17 años)</li>
+                            <li>El Clan Rover Almogama (de 17 a 21)</li>
+                        </ul> 
+                        Los adultos que deseen formar parte de este proyecto educativo también son bienvenidos.<br/><br/>
+
+                        Las secciones del Grupo se reúnen generalmente los sábados en el Colegio Guadaljaire.<br/><br/>
+
+                        Para apuntarse necesario subir rellenada junto con el formulario de registro <br/><br/>
+
+                    </p>
+
+                    <h:form>
+                        <p:commandButton value="Descargar Formulario" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                            <p:fileDownload value="#{fileDownloadView.file}" />
+                        </p:commandButton>
+                    </h:form>
+                </div>
+
+                <div id="formularioApuntate">
+                    <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+                        <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+                    </p:dialog>
+
+
+
+                    <script type="text/javascript">
+                        function start() {
+                            PF('statusDialog').show();
+                        }
+
+                        function stop() {
+                            PF('statusDialog').hide();
+                        }
+                    </script>
+                    <br/>
+                    <h:form>
+                        <p:panel id="panel" header="Registrate">
+
+                            <p:messages id="msgs" />
+
+                            <h:panelGrid columns="3" cellpadding="6">
+                                <p:outputLabel for="firstname" value="Nombre:" />
+                                <p:inputText id="firstname" class="campos" value="#{usuario_mb.nombre}" required="true" label="Firstname">
+                                    <f:validateLength minimum="2" />
+                                </p:inputText>
+                                
+                                <p:message for="firstname" display="icon" />
+
+                                <p:outputLabel for="lastname" value="Primer Apellido: " />
+                                <p:inputText id="lastname" class="campos" value="#{usuario_mb.apellido1}" label="Lastname" required="true">
+                                    <f:validateLength minimum="2" />
+                                    <p:ajax update="msgLastname" event="keyup" />
+                                </p:inputText>
+                               
+                                <p:message for="lastname" id="msgLastname" display="icon" />
+
+                                <p:outputLabel for="apellido2" value="Segundo Apellido: " />
+                                <p:inputText id="apellido2" class="campos" value="#{usuario_mb.apellido2}" label="apellido2" required="true">
+                                </p:inputText>
+                                <p:message for="apellido2" display="icon" />
+
+                                <p:outputLabel for="contrasena" value="Contraseña: " />
+                                <p:inputText id="contrasena" class="campos" type="password" value="#{usuario_mb.contrasena}" label="contrasena" required="true">
+                                    <f:validateLength minimum="8" />
+                                    <p:ajax update="msgcontrasena" event="keyup" />
+                                </p:inputText>
+                                <p:message for="contrasena" id="msgcontrasena" display="icon" />
+
+
+                                <p:outputLabel for="dni" value="DNI:  " />
+                                <p:inputText id="dni"  value="#{usuario_mb.DNI}" label="dni" required="true">
+                                </p:inputText>
+                                <p:message for="dni" display="icon" />
+
+                                <p:outputLabel for="popup" value="Fecha Nacimiento" />
+                                <p:calendar id="popup" value="#{usuario_mb.fecha_nacimiento}" required="true" />
+
+                                <p:growl id="archivo" showDetail="true" />
+
+                                <p:fileUpload value="#{usuario_mb.file}" mode="simple" skinSimple="true"/>
+
+
+                            </h:panelGrid>
+
+                            <p:commandButton value="Save" update="panel" actionListener="#{usuario_mb.crearUsuario()}" icon="ui-icon-check" />
+
+                        </p:panel>
+                    </h:form>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

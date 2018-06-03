@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/Template_Logeado.xhtml">
+
+            
+
+            <ui:define name="content">
+                
+
+                <h1><h:outputLabel value="#{eventoMB.ev.tipoEvento}"/></h1>
+                <div><img  width = "800" height= "300" src="#{eventoMB.ev.imagen}"/></div>
+                <h2>Descripción:</h2>
+                <h3><h:outputLabel value="#{eventoMB.ev.descripcion}"/></h3>
+                                
+                <c:choose>
+                    <c:when test="#{!eventoMB.buscarListaUs()}">
+                        <h:form>           
+
+                            <h:commandButton value="¿Quieres apuntarte al evento?" action="#{eventoMB.listaGente()}"/> 
+
+                        </h:form>
+                    </c:when>    
+                    <c:otherwise>
+                        <p>Ya estas apuntado en la lista de participantes!</p>
+                    </c:otherwise>
+                </c:choose>
+                
+                <p:panel header="Comentarios:">
+                    <c:forEach var="com" items="#{eventoMB.obtenerComentarios()}">
+                    
+                        <h4><h:outputLabel value="#{com.usuario}"></h:outputLabel> : </h4>
+                        <p><h:outputLabel value="#{com.texto}"></h:outputLabel></p>
+                        <p><h:outputLabel value="#{com.fecha}"></h:outputLabel></p>
+                   
+                </c:forEach>
+                </p:panel>
+                <h2>Escribe aquí su comentario.</h2>
+                <h2>Por favor, respete a todos los usuarios.</h2>
+                <h:form> 
+                    <p:editor id="editor" widgetVar="editorWidget" value="#{eventoMB.comentario}" width="600" />
+
+                    <h:panelGrid columns="2" style="margin-top: 10px">
+                        <h:commandButton value="Enviar" action="#{eventoMB.guardarComentario()}"/> 
+                        <p:commandButton value="Borrar" type="button" onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
+                    </h:panelGrid>
+
+                    <p:dialog header="Content" widgetVar="dlg" showEffect="fade" hideEffect="fade">
+                        <h:outputText id="display" value="#{eventoMB.comentario}" escape="false" />
+                    </p:dialog>
+                </h:form>
+
+                
+                
+            </ui:define>
+
+           
+
+        </ui:composition>
+
+    </body>
+</html>

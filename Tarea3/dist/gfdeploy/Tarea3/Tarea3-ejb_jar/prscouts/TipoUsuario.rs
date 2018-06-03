@@ -1,0 +1,1 @@
+grupoc.prscouts.TipoUsuario
